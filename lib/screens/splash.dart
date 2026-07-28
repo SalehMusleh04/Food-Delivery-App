@@ -13,13 +13,12 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> fadeAnimation;
-
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
     fadeAnimation = Tween<double>(
       begin: 0.0,
@@ -29,10 +28,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
 
     Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Onboarding()),
-      );
+      Navigator.pushReplacementNamed(context, Onboarding.routeName);
     });
   }
 
@@ -44,20 +40,24 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+  Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(gradient: AppColors.primaryColor),
+        decoration: const BoxDecoration(
+          gradient: AppColors.primaryGradientColor,
+        ),
         child: SafeArea(
+          bottom: false,
           child: Column(
             children: [
-              Spacer(),
+              const Spacer(),
               FadeTransition(
                 opacity: fadeAnimation,
                 child: SvgPicture.asset('assets/imgs/Foodgo.svg'),
               ),
-              Spacer(),
+              const Spacer(),
               Expanded(
                 child: Stack(
                   alignment: Alignment.bottomLeft,
@@ -66,14 +66,14 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                       left: -10,
                       child: Image.asset(
                         'assets/imgs/burger2.png',
-                        height: 220,
+                        height:  0.27 * size.height ,
                       ),
                     ),
                     Positioned(
                       left: 100,
                       child: Image.asset(
                         'assets/imgs/burger1.png',
-                        height: 190,
+                        height:  0.23 * size.height,
                       ),
                     ),
                   ],

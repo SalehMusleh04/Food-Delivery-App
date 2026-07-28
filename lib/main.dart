@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_delivery_app/screens/bottom_nav_bar.dart';
+import 'package:food_delivery_app/screens/home_page.dart';
 import 'package:food_delivery_app/screens/onboarding.dart';
 import 'package:food_delivery_app/screens/splash.dart';
 
@@ -23,8 +25,11 @@ class MyApp extends StatelessWidget {
       title: 'FoodGo',
       routes: {
         '/': (context) => const Splash(),
-        '/onboarding': (context) => const Onboarding(),
+        Onboarding.routeName: (context) => const Onboarding(),
+        BottomNavBar.routeName: (context) => const BottomNavBar(),
+        HomePage.routeName: (context) => const HomePage(),
       },
+      theme: ThemeData(fontFamily: 'Sen'),
     );
   }
 }
