@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_delivery_app/models/food_item_model.dart';
+import 'package:food_delivery_app/ui_models/food_details_args.dart';
 import 'package:food_delivery_app/utils/app_colors.dart';
 import 'package:food_delivery_app/widgets/fav_button.dart';
 import 'package:food_delivery_app/widgets/porition_counter.dart';
 import 'package:food_delivery_app/widgets/spicy_indicator.dart';
 
 class DetailsPage extends StatefulWidget {
-  final int index;
-  const DetailsPage({super.key, required this.index});
-
+  const DetailsPage({super.key});
+  static const String routeName = '/detailsPage';
   @override
   State<DetailsPage> createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
   int counter = 1;
+  bool isChanged = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    final foodArgs =
+        ModalRoute.of(context)!.settings.arguments as FoodDetailsArgs;
+    int foodIndex = foodArgs.foodIndex;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -34,31 +38,34 @@ class _DetailsPageState extends State<DetailsPage> {
                     Icons.arrow_circle_left_outlined,
                     size: size.width * 0.1,
                   ),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(context, isChanged),
                 ),
                 foregroundColor: Colors.black,
                 backgroundColor: Colors.white,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Image.asset(
-                    foods[widget.index].imgPath,
+                    foods[foodIndex].imgPath,
                     fit: BoxFit.contain,
                   ),
                 ),
                 expandedHeight: size.height * 0.24,
                 actions: [
                   FavButton(
-                    isFavorite: foods[widget.index].isFavorite,
-                    onPressed: () => setState(() {
-                      foods[widget.index] = foods[widget.index].copyWith(
-                        isFavorite: !foods[widget.index].isFavorite,
-                      );
-                    }),
+                    isFavorite: foods[foodIndex].isFavorite,
+                    onPressed: () {
+                      isChanged = true;
+                      setState(() {
+                        foods[foodIndex] = foods[foodIndex].copyWith(
+                          isFavorite: !foods[foodIndex].isFavorite,
+                        );
+                      });
+                    },
                     size: size.width * 0.09,
                   ),
                 ],
               ),
             ),
-        
+
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -68,7 +75,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   children: [
                     SizedBox(height: size.height * 0.035),
                     Text(
-                      foods[widget.index].subTitle,
+                      foods[foodIndex].subTitle,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20,
@@ -81,15 +88,13 @@ class _DetailsPageState extends State<DetailsPage> {
                         SvgPicture.asset('assets/icons/star.svg'),
                         SizedBox(width: size.width * 0.013),
                         Text(
-                          '${foods[widget.index].rating} - ${foods[widget.index].prepTime} mins',
-                          style: const TextStyle(
-                            color: AppColors.fourthColor,
-                          ),
+                          '${foods[foodIndex].rating} - ${foods[foodIndex].prepTime} mins',
+                          style: const TextStyle(color: AppColors.fourthColor),
                         ),
                       ],
                     ),
                     SizedBox(height: size.height * 0.02),
-                    Text(foods[widget.index].description),
+                    Text(foods[foodIndex].description),
                     SizedBox(height: size.height * 0.02),
                     Row(
                       children: [
@@ -124,7 +129,7 @@ class _DetailsPageState extends State<DetailsPage> {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
-                  '\$${foods[widget.index].price}',
+                  '\$${foods[foodIndex].price}',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),

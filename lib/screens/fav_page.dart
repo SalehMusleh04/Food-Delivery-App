@@ -50,7 +50,11 @@ class _FavPageState extends State<FavPage> {
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: FavoriteCard(
-                index: index,
+                rebuildScreen: (value) {
+                  if (value == true) {
+                    setState(() {});
+                  }
+                },
                 favoriteFood: favoriteFood[index],
                 onPressed: () {
                   int originalIndex = foods.indexWhere(

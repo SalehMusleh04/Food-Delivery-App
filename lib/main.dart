@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_delivery_app/screens/bottom_nav_bar.dart';
+import 'package:food_delivery_app/screens/details_page.dart';
 import 'package:food_delivery_app/screens/home_page.dart';
 import 'package:food_delivery_app/screens/onboarding.dart';
 import 'package:food_delivery_app/screens/splash.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         Onboarding.routeName: (context) => const Onboarding(),
         BottomNavBar.routeName: (context) => const BottomNavBar(),
         HomePage.routeName: (context) => const HomePage(),
+        DetailsPage.routeName : (context) => const DetailsPage(),
       },
       theme: ThemeData(fontFamily: 'Sen'),
     );
